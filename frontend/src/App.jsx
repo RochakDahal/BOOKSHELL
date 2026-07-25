@@ -19,12 +19,19 @@ import OrderDetail from './pages/OrderDetail'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
 
+// Admin imports
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminOrders from './pages/admin/AdminOrders'
+import AdminBooks from './pages/admin/AdminBooks'
+import AdminContacts from './pages/admin/AdminContacts'
+
 function App() {
   return (
     <div className="min-h-screen flex flex-col font-['Alatsi']">
       <Navbar />
       <main className="grow pt-16">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books />} />
           <Route path="/books/:id" element={<BookDetail />} />
@@ -35,12 +42,20 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          
+          {/* Checkout & Orders */}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/my-orders" element={<MyOrders />} />
           <Route path="/order-detail/:id" element={<OrderDetail />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failed" element={<PaymentFailed />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/books" element={<AdminBooks />} />
+          <Route path="/admin/contacts" element={<AdminContacts />} />
         </Routes>
       </main>
       <Footer />
