@@ -37,52 +37,47 @@ const Login = () => {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     
     if (validateForm()) {
-      try {
-        // Check for admin login
-        if (formData.email === 'admin@bookshell.com' && formData.password === 'admin123') {
-          const adminData = {
-            firstName: 'Admin',
-            lastName: 'User',
-            email: formData.email,
-            isAdmin: true,
-            id: 1
-          }
-          localStorage.setItem('user', JSON.stringify(adminData))
-          alert('Admin login successful!')
-          navigate('/')
-          return
+      // Check for admin login
+      if (formData.email === 'admin@bookshell.com' && formData.password === 'admin123') {
+        const adminData = {
+          firstName: 'Admin',
+          lastName: 'User',
+          email: formData.email,
+          isAdmin: true,
+          id: 1
         }
+        localStorage.setItem('user', JSON.stringify(adminData))
+        alert('Admin login successful!')
+        navigate('/')
+        return
+      }
 
-        // Check localStorage for user
-        const users = JSON.parse(localStorage.getItem('users') || '[]')
-        const user = users.find(u => u.email === formData.email && u.password === formData.password)
+      // Check localStorage for user
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
+      const user = users.find(u => u.email === formData.email && u.password === formData.password)
 
-        if (user) {
-          const userData = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            id: user.id
-          }
-          localStorage.setItem('user', JSON.stringify(userData))
-          alert('Login successful! Welcome to BOOKSHELL.')
-          navigate('/')
-        } else {
-          alert('Invalid email or password. Please try again.')
+      if (user) {
+        const userData = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          id: user.id
         }
-      } catch (error) {
-        console.error('Login error:', error)
-        alert('Login failed. Please try again.')
+        localStorage.setItem('user', JSON.stringify(userData))
+        alert('Login successful! Welcome to BOOKSHELL.')
+        navigate('/')
+      } else {
+        alert('Invalid email or password. Please try again.')
       }
     }
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-bookshell-50 to-accent-50 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-primary-50 to-cyan-50 flex items-center justify-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -92,7 +87,7 @@ const Login = () => {
         <motion.button
           whileHover={{ x: -5 }}
           onClick={() => navigate('/')}
-          className="flex items-center text-gray-600 hover:text-bookshell-600 mb-6 transition-colors"
+          className="flex items-center text-gray-600 hover:text-primary-600 mb-6 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back to home
@@ -105,7 +100,7 @@ const Login = () => {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="w-16 h-16 bg-linear-to-br from-bookshell-400 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 bg-linear-to-br from-primary-400 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4"
             >
               <Lock className="w-8 h-8 text-white" />
             </motion.div>
@@ -126,7 +121,7 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`input-field pl-10 ${errors.email ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 ${errors.email ? 'input-field-error' : ''}`}
                   placeholder="email@example.com"
                 />
               </div>
@@ -147,7 +142,7 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`input-field pl-10 pr-10 ${errors.password ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 pr-10 ${errors.password ? 'input-field-error' : ''}`}
                   placeholder="••••••••"
                 />
                 <button
@@ -168,7 +163,7 @@ const Login = () => {
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full gradient-btn py-3 text-lg font-medium"
+              className="w-full gradient-btn py-3 text-lg"
             >
               Sign In
             </motion.button>
@@ -177,7 +172,7 @@ const Login = () => {
           {/* Register Link */}
           <p className="mt-6 text-center text-gray-600">
             Don't have an account?{' '}
-            <Link to="/register" className="text-bookshell-600 hover:text-bookshell-700 font-medium">
+            <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
               Create account
             </Link>
           </p>

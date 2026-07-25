@@ -3,6 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import bookRoutes from './routes/bookRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import wishlistRoutes from './routes/wishlistRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 // Load environment variables
@@ -25,8 +31,8 @@ app.use(cors({
 
 // Basic Route
 app.get('/', (req, res) => {
-    res.json({ 
-        message: 'BOOKSHELL API is running...', 
+    res.json({
+        message: 'BOOKSHELL API is running...',
         location: 'Bhaktapur, Nepal',
         contact: '9745969254',
         email: 'info@bookshell.com'
@@ -35,6 +41,12 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Error Handling Middleware
 app.use(notFound);

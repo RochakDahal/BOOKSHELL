@@ -54,37 +54,49 @@ const Register = () => {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     
     if (validateForm()) {
-      try {
-        // Store user data in localStorage (for demo)
-        const userData = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          gender: formData.gender,
-          address: formData.address,
-          email: formData.email,
-          id: Date.now()
-        }
-        
-        localStorage.setItem('user', JSON.stringify(userData))
-        
-        // Show success message
-        alert('Registration successful! Welcome to BOOKSHELL.')
-        
-        // Navigate to home
-        navigate('/')
-      } catch (error) {
-        console.error('Registration error:', error)
-        alert('Registration failed. Please try again.')
+      // Save user to localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
+      
+      // Check if user exists
+      if (users.find(u => u.email === formData.email)) {
+        alert('User already exists with this email')
+        return
       }
+
+      const newUser = {
+        id: Date.now(),
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        gender: formData.gender,
+        address: formData.address,
+        email: formData.email,
+        password: formData.password,
+        role: 'user'
+      }
+      
+      users.push(newUser)
+      localStorage.setItem('users', JSON.stringify(users))
+      
+      // Auto login
+      const userData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        id: Date.now()
+      }
+      localStorage.setItem('user', JSON.stringify(userData))
+      
+      alert('Registration successful! Welcome to BOOKSHELL.')
+      navigate('/')
     }
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-bookshell-50 to-accent-50 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-primary-50 to-cyan-50 flex items-center justify-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -94,7 +106,7 @@ const Register = () => {
         <motion.button
           whileHover={{ x: -5 }}
           onClick={() => navigate('/')}
-          className="flex items-center text-gray-600 hover:text-bookshell-600 mb-6 transition-colors"
+          className="flex items-center text-gray-600 hover:text-primary-600 mb-6 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back to home
@@ -107,7 +119,7 @@ const Register = () => {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="w-16 h-16 bg-linear-to-br from-bookshell-400 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 bg-linear-to-br from-primary-400 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4"
             >
               <User className="w-8 h-8 text-white" />
             </motion.div>
@@ -129,7 +141,7 @@ const Register = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className={`input-field pl-10 ${errors.firstName ? 'border-red-500' : ''}`}
+                    className={`input-field pl-10 ${errors.firstName ? 'input-field-error' : ''}`}
                     placeholder="Enter first name"
                   />
                 </div>
@@ -150,7 +162,7 @@ const Register = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className={`input-field pl-10 ${errors.lastName ? 'border-red-500' : ''}`}
+                    className={`input-field pl-10 ${errors.lastName ? 'input-field-error' : ''}`}
                     placeholder="Enter last name"
                   />
                 </div>
@@ -171,7 +183,7 @@ const Register = () => {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className={`input-field pl-10 ${errors.gender ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 ${errors.gender ? 'input-field-error' : ''}`}
                 >
                   <option value="">Select gender</option>
                   <option value="male">Male</option>
@@ -195,8 +207,8 @@ const Register = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  rows="3"
-                  className={`input-field pl-10 ${errors.address ? 'border-red-500' : ''}`}
+                  rows="2"
+                  className={`input-field pl-10 ${errors.address ? 'input-field-error' : ''}`}
                   placeholder="Enter your address"
                 />
               </div>
@@ -217,7 +229,7 @@ const Register = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`input-field pl-10 ${errors.email ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 ${errors.email ? 'input-field-error' : ''}`}
                   placeholder="email@example.com"
                 />
               </div>
@@ -238,7 +250,7 @@ const Register = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`input-field pl-10 pr-10 ${errors.password ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 pr-10 ${errors.password ? 'input-field-error' : ''}`}
                   placeholder="••••••••"
                 />
                 <button
@@ -266,7 +278,7 @@ const Register = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`input-field pl-10 pr-10 ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 pr-10 ${errors.confirmPassword ? 'input-field-error' : ''}`}
                   placeholder="••••••••"
                 />
                 <button
@@ -287,7 +299,7 @@ const Register = () => {
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full gradient-btn py-3 text-lg font-medium"
+              className="w-full gradient-btn py-3 text-lg"
             >
               Create Account
             </motion.button>
@@ -296,7 +308,7 @@ const Register = () => {
           {/* Login Link */}
           <p className="mt-6 text-center text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="text-bookshell-600 hover:text-bookshell-700 font-medium">
+            <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
               Sign in
             </Link>
           </p>
