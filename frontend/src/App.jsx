@@ -18,12 +18,12 @@ import MyOrders from './pages/MyOrders'
 import OrderDetail from './pages/OrderDetail'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
-
 // Admin imports
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminBooks from './pages/admin/AdminBooks'
 import AdminContacts from './pages/admin/AdminContacts'
+import AdminActivityLogs from './pages/admin/AdminActivityLogs'
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          
+
           {/* Checkout & Orders */}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
@@ -50,12 +50,13 @@ function App() {
           <Route path="/order-detail/:id" element={<OrderDetail />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failed" element={<PaymentFailed />} />
-          
+
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/books" element={<AdminBooks />} />
           <Route path="/admin/contacts" element={<AdminContacts />} />
+          <Route path="/admin/activity-logs" element={<AdminActivityLogs />} />
         </Routes>
       </main>
       <Footer />

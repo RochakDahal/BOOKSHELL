@@ -12,6 +12,7 @@ import contactRoutes from './routes/contactRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import activityRoutes from './routes/activityRoutes.js';
+import emailRoutes from './routes/emailRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 // Load environment variables
@@ -53,6 +54,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/activity', activityRoutes);
+app.use('/api/email', emailRoutes);
 
 // Error Handling Middleware
 app.use(notFound);
