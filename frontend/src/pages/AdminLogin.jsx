@@ -37,11 +37,10 @@ const AdminLogin = () => {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     
     if (validateForm()) {
-      // Admin credentials
       if (formData.email === 'admin@bookshell.com' && formData.password === 'admin123') {
         const adminData = {
           firstName: 'Admin',
@@ -60,7 +59,7 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-bookshell-50 to-accent-50 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-linear-to-br from-secondary-50 to-pink-50 flex items-center justify-center px-4 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -69,7 +68,7 @@ const AdminLogin = () => {
         <motion.button
           whileHover={{ x: -5 }}
           onClick={() => navigate('/')}
-          className="flex items-center text-gray-600 hover:text-bookshell-600 mb-6 transition-colors"
+          className="flex items-center text-gray-600 hover:text-secondary-600 mb-6 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back to home
@@ -80,7 +79,7 @@ const AdminLogin = () => {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="w-16 h-16 bg-linear-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 bg-linear-to-br from-secondary-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4"
             >
               <Shield className="w-8 h-8 text-white" />
             </motion.div>
@@ -100,7 +99,7 @@ const AdminLogin = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`input-field pl-10 ${errors.email ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 ${errors.email ? 'input-field-error' : ''}`}
                   placeholder="admin@bookshell.com"
                 />
               </div>
@@ -120,7 +119,7 @@ const AdminLogin = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`input-field pl-10 pr-10 ${errors.password ? 'border-red-500' : ''}`}
+                  className={`input-field pl-10 pr-10 ${errors.password ? 'input-field-error' : ''}`}
                   placeholder="••••••••"
                 />
                 <button
@@ -140,7 +139,7 @@ const AdminLogin = () => {
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-linear-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-lg font-medium"
+              className="w-full gradient-btn-secondary py-3 text-lg"
             >
               Login as Admin
             </motion.button>
