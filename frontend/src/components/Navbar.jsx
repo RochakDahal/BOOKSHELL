@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Heart, Menu, X, User, LogOut, Home, BookOpen, Phone, Package } from 'lucide-react'
+import { ShoppingCart, Heart, Menu, X, User, LogOut, Home, BookOpen, Phone, Package, LayoutDashboard } from 'lucide-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,7 +16,7 @@ const Navbar = () => {
       setScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll)
-    
+
     // Update cart count
     const cart = JSON.parse(localStorage.getItem('cart') || '[]')
     const count = cart.reduce((sum, item) => sum + item.quantity, 0)
@@ -41,7 +41,7 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -50,9 +50,9 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
+
           {/* Logo */}
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center cursor-pointer"
@@ -100,6 +100,21 @@ const Navbar = () => {
                 <span className="flex items-center space-x-1">
                   <Package className="w-4 h-4" />
                   <span>My Orders</span>
+                </span>
+              </Link>
+            )}
+
+            {/* Admin - Only when logged in as admin */}
+            {user && user.isAdmin && (
+              <Link
+                to="/admin"
+                className={`relative text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium ${
+                  location.pathname.startsWith('/admin') ? 'text-primary-600' : ''
+                }`}
+              >
+                <span className="flex items-center space-x-1">
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span>Admin</span>
                 </span>
               </Link>
             )}
@@ -198,8 +213,8 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-2 rounded-lg transition-colors ${
-                    isActive(link.path) 
-                      ? 'bg-primary-50 text-primary-600' 
+                    isActive(link.path)
+                      ? 'bg-primary-50 text-primary-600'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -209,7 +224,7 @@ const Navbar = () => {
                   </span>
                 </Link>
               ))}
-              
+
               {user && (
                 <Link
                   to="/my-orders"
@@ -219,6 +234,24 @@ const Navbar = () => {
                   <span className="flex items-center space-x-2">
                     <Package className="w-5 h-5" />
                     <span>My Orders</span>
+                  </span>
+                </Link>
+              )}
+
+              {/* Admin - Mobile */}
+              {user && user.isAdmin && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-4 py-2 rounded-lg transition-colors ${
+                    location.pathname.startsWith('/admin')
+                      ? 'bg-primary-50 text-primary-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <span className="flex items-center space-x-2">
+                    <LayoutDashboard className="w-5 h-5" />
+                    <span>Admin</span>
                   </span>
                 </Link>
               )}
