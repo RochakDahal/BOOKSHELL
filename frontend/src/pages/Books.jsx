@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, SlidersHorizontal, X, Grid3X3, List } from 'lucide-react'
+import { useDebounce } from '../hooks/useDebounce'
+import SearchBar from '../components/SearchBar'
+import { SlidersHorizontal, X, Grid3X3, List } from 'lucide-react'
 import BookCard from '../components/BookCard'
 
 const Books = () => {
@@ -13,6 +15,9 @@ const Books = () => {
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState('grid')
+
+  // Debounce search term to avoid filtering on every keystroke
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
   const categories = ['All', 'Fiction', 'Fantasy', 'Self-Help', 'Business', 'Science', 'History', 'Romance', 'Technology', 'Biography']
 
@@ -157,16 +162,17 @@ const Books = () => {
 
   useEffect(() => {
     let result = books.filter(book => {
-      const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           book.author.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesSearch =
+        book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       const matchesCategory = selectedCategory === 'All' || book.category === selectedCategory
       const matchesPrice = book.price >= priceRange[0] && book.price <= priceRange[1]
-      
+
       return matchesSearch && matchesCategory && matchesPrice
     })
 
     // Sort
-    switch(sortBy) {
+    switch (sortBy) {
       case 'price-low':
         result.sort((a, b) => a.price - b.price)
         break
@@ -184,7 +190,7 @@ const Books = () => {
     }
 
     setFilteredBooks(result)
-  }, [searchTerm, selectedCategory, sortBy, priceRange, books])
+  }, [debouncedSearchTerm, selectedCategory, sortBy, priceRange, books])
 
   const clearFilters = () => {
     setSearchTerm('')
@@ -216,15 +222,12 @@ const Books = () => {
           className="bg-white rounded-2xl shadow-lg p-6 mb-8"
         >
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search by title, author, or keyword..."
+            {/* Search - using SearchBar component */}
+            <div className="flex-1">
+              <SearchBar
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400"
+                onChange={setSearchTerm}
+                placeholder="Search by title, author, or keyword..."
               />
             </div>
 
@@ -253,7 +256,7 @@ const Books = () => {
               <span>Filters</span>
               {selectedCategory !== 'All' && (
                 <span className="ml-1 text-xs bg-primary-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
-                  {selectedCategory !== 'All' ? 1 : 0}
+                  1
                 </span>
               )}
             </button>
@@ -330,7 +333,6 @@ const Books = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={clearFilters}
@@ -368,7 +370,7 @@ const Books = () => {
           </div>
         ) : (
           <AnimatePresence>
-            <div className={viewMode === 'grid' 
+            <div className={viewMode === 'grid'
               ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'
               : 'space-y-6'
             }>

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,7 +11,6 @@ export default {
         'alatsi': ['Alatsi', 'sans-serif'],
       },
       colors: {
-        // Primary: teal-500 to cyan-500
         'primary': {
           50: '#f0fdfa',
           100: '#ccfbf1',
@@ -23,7 +23,6 @@ export default {
           800: '#115e59',
           900: '#134e4a',
         },
-        // Secondary: purple-500 to pink-500
         'secondary': {
           50: '#faf5ff',
           100: '#f3e8ff',
@@ -36,7 +35,6 @@ export default {
           800: '#6b21a8',
           900: '#581c87',
         },
-        // Accent: cyan
         'cyan': {
           50: '#ecfeff',
           100: '#cffafe',
@@ -61,6 +59,8 @@ export default {
         'slide-down': 'slideDown 0.3s ease-out',
         'bounce-in': 'bounceIn 0.6s ease-out',
         'pulse-slow': 'pulse 3s ease-in-out infinite',
+        'spin-slow': 'spin 3s linear infinite',
+        'float': 'float 3s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -79,6 +79,10 @@ export default {
           '0%': { transform: 'scale(0.8)', opacity: '0' },
           '50%': { transform: 'scale(1.05)' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },
