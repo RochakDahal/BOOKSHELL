@@ -17,7 +17,8 @@ import {
   XCircle,
   Truck,
   BarChart3,
-  Settings
+  Settings,
+  Activity
 } from 'lucide-react'
 
 const AdminDashboard = () => {
@@ -170,7 +171,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-8">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -235,6 +236,17 @@ const AdminDashboard = () => {
             <Settings className="w-8 h-8 text-primary-600 mx-auto mb-2" />
             <p className="font-semibold">Settings</p>
             <p className="text-sm text-gray-500">Configure shop</p>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate('/admin/activity-logs')}
+            className="bg-white rounded-2xl shadow-lg p-4 text-center hover:shadow-xl transition-all"
+          >
+            <Activity className="w-8 h-8 text-primary-600 mx-auto mb-2" />
+            <p className="font-semibold">Activity Logs</p>
+            <p className="text-sm text-gray-500">View user activities</p>
           </motion.button>
         </div>
 
